@@ -7,7 +7,6 @@ namespace easy_hotel_backend.Repositorio
     public class QuartoRepository : IQuartoRepository
     {
         private readonly ApiDbContext _contexto;
-        private IHotelRepository _hotelRepository;
         public QuartoRepository(ApiDbContext ctx)
         {
             _contexto = ctx;
@@ -22,12 +21,14 @@ namespace easy_hotel_backend.Repositorio
         {
             var quarto = _contexto.Quarto.FirstOrDefault(q => q.QuartoId == id);
             quarto.Hotel = _contexto.Hotels.Find(quarto.HotelId);
+            quarto.Imagens = _contexto.Imagem.Where(i => i.QuartoId == quarto.QuartoId).ToList();
             return quarto;
         }
 
         IEnumerable<Quarto> IQuartoRepository.GetAll()
         {
-            var quartos = _contexto.Quarto.GroupJoin(_contexto.Hotels.ToList(), q => q.HotelId, h => h.HotelId, (quarto, hotel) => quarto);
+            var quartos = _contexto.Quarto.GroupJoin(_contexto.Hotels.ToList(), q => q.HotelId, h => h.HotelId, (quarto, hotel) => quarto)
+            .GroupJoin(_contexto.Imagem.ToList(), q => q.QuartoId, i => i.QuartoId, (quarto, imagem) => quarto);
             return quartos;
         }
 

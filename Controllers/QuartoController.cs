@@ -12,6 +12,7 @@ namespace easy_hotel_backend.Controllers
         private readonly IHotelRepository _hotelRepositorio;
         private readonly IQuartoRepository _quartoRepositorio;
 
+
         public QuartoController(IHotelRepository hotelRepo, IQuartoRepository quartoRepo)
         {
             _hotelRepositorio = hotelRepo;

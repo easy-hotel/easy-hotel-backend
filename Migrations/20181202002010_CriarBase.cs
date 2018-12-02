@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace easyhotelbackend.Migrations
 {
-    public partial class CriaBase : Migration
+    public partial class CriarBase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,7 +49,7 @@ namespace easyhotelbackend.Migrations
                     HotelId = table.Column<int>(nullable: false),
                     TipoQuarto = table.Column<string>(nullable: true),
                     Descricao = table.Column<string>(nullable: true),
-                    AvaliacaoQuarto = table.Column<string>(nullable: true),
+                    AvaliacaoQuarto = table.Column<int>(nullable: false),
                     Valor = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
@@ -64,14 +64,36 @@ namespace easyhotelbackend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Comentario",
+                columns: table => new
+                {
+                    ComentarioId = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:AutoIncrement", true),
+                    QuartoId = table.Column<int>(nullable: false),
+                    UsuarioId = table.Column<int>(nullable: false),
+                    Texto = table.Column<string>(nullable: true),
+                    Avaliacao = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comentario", x => x.ComentarioId);
+                    table.ForeignKey(
+                        name: "FK_Comentario_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuarios",
+                        principalColumn: "UsuarioId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Imagem",
                 columns: table => new
                 {
                     ImagemId = table.Column<int>(nullable: false)
                         .Annotation("MySQL:AutoIncrement", true),
                     Nome = table.Column<string>(nullable: true),
-                    Arquivo = table.Column<string>(nullable: true),
-                    QuartoId = table.Column<int>(nullable: true)
+                    Url = table.Column<string>(nullable: true),
+                    QuartoId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -81,7 +103,7 @@ namespace easyhotelbackend.Migrations
                         column: x => x.QuartoId,
                         principalTable: "Quarto",
                         principalColumn: "QuartoId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -108,6 +130,11 @@ namespace easyhotelbackend.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comentario_UsuarioId",
+                table: "Comentario",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Imagem_QuartoId",
                 table: "Imagem",
                 column: "QuartoId");
@@ -125,6 +152,9 @@ namespace easyhotelbackend.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Comentario");
+
             migrationBuilder.DropTable(
                 name: "Imagem");
 

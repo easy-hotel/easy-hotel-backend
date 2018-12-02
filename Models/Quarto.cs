@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace easy_hotel_backend.Models
 {
     public class Quarto
@@ -6,9 +8,9 @@ namespace easy_hotel_backend.Models
         public int HotelId { get; set; }
         public string TipoQuarto { get; set; }
         public string Descricao { get; set; }
-        public string AvaliacaoQuarto { get; set; }
+        public int AvaliacaoQuarto { get; set; }
         public double Valor { get; set; }
-        public Imagem[] Imagens { get; set; }
+        public List<Imagem> Imagens { get; set; }
         public Hotel Hotel { get; set; }
 
     }

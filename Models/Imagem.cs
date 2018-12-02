@@ -4,7 +4,8 @@ namespace easy_hotel_backend.Models
     {
         public int ImagemId { get; set; }
         public string Nome { get; set; }
-        public string Arquivo { get; set; }
+        public string Url { get; set; }
+        public int QuartoId { get; set; }
 
     }
 }

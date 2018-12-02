@@ -8,7 +8,6 @@ namespace easy_hotel_backend.Controllers
     [Route("api/[Controller]")]
     public class HotelController : Controller
     {
-        private ApiDbContext _hotelDbContext;
         private readonly IHotelRepository _hotelRepositorio;
 
         public HotelController(IHotelRepository hotelRepo)

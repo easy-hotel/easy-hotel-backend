@@ -9,14 +9,34 @@ using easy_hotel_backend;
 namespace easyhotelbackend.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20181111223416_CriaBase")]
-    partial class CriaBase
+    [Migration("20181202002010_CriarBase")]
+    partial class CriarBase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.2-rtm-30932");
+
+            modelBuilder.Entity("easy_hotel_backend.Models.Comentario", b =>
+                {
+                    b.Property<int>("ComentarioId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Avaliacao");
+
+                    b.Property<int>("QuartoId");
+
+                    b.Property<string>("Texto");
+
+                    b.Property<int>("UsuarioId");
+
+                    b.HasKey("ComentarioId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Comentario");
+                });
 
             modelBuilder.Entity("easy_hotel_backend.Models.Hotel", b =>
                 {
@@ -45,11 +65,11 @@ namespace easyhotelbackend.Migrations
                     b.Property<int>("ImagemId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Arquivo");
-
                     b.Property<string>("Nome");
 
-                    b.Property<int?>("QuartoId");
+                    b.Property<int>("QuartoId");
+
+                    b.Property<string>("Url");
 
                     b.HasKey("ImagemId");
 
@@ -63,7 +83,7 @@ namespace easyhotelbackend.Migrations
                     b.Property<int>("QuartoId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AvaliacaoQuarto");
+                    b.Property<int>("AvaliacaoQuarto");
 
                     b.Property<string>("Descricao");
 
@@ -118,11 +138,20 @@ namespace easyhotelbackend.Migrations
                     b.ToTable("Usuarios");
                 });
 
+            modelBuilder.Entity("easy_hotel_backend.Models.Comentario", b =>
+                {
+                    b.HasOne("easy_hotel_backend.Usuario", "usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("easy_hotel_backend.Models.Imagem", b =>
                 {
                     b.HasOne("easy_hotel_backend.Models.Quarto")
                         .WithMany("Imagens")
-                        .HasForeignKey("QuartoId");
+                        .HasForeignKey("QuartoId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("easy_hotel_backend.Models.Quarto", b =>

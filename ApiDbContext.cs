@@ -12,6 +12,7 @@ namespace easy_hotel_backend
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Reserva> Reserva { get; set; }
         public DbSet<Quarto> Quarto { get; set; }
-
+        public DbSet<Imagem> Imagem { get; set; }
+        public DbSet<Comentario> Comentario { get; set; }
     }
 }
