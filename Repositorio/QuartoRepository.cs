@@ -19,22 +19,40 @@ namespace easy_hotel_backend.Repositorio
 
         Quarto IQuartoRepository.Find(long id)
         {
+            // Join QuartoImagem com Imagem
+            var quartoImagems = _contexto.QuartoImagem.GroupJoin(_contexto.Imagem.ToList(), qi => qi.ImagemId, i => i.ImagemId, (quartoImagem, imagem) => quartoImagem);
+            // get quarto
             var quarto = _contexto.Quarto.FirstOrDefault(q => q.QuartoId == id);
+            // set hotel 
             quarto.Hotel = _contexto.Hotels.Find(quarto.HotelId);
-            quarto.Imagens = _contexto.Imagem.Where(i => i.QuartoId == quarto.QuartoId).ToList();
+            // set imagems
+            quarto.QuartoImagems = quartoImagems.Where(q => q.QuartoId == quarto.QuartoId).ToList();
+
             return quarto;
         }
 
         IEnumerable<Quarto> IQuartoRepository.GetAll()
         {
-            var quartos = _contexto.Quarto.GroupJoin(_contexto.Hotels.ToList(), q => q.HotelId, h => h.HotelId, (quarto, hotel) => quarto)
-            .GroupJoin(_contexto.Imagem.ToList(), q => q.QuartoId, i => i.QuartoId, (quarto, imagem) => quarto);
+            // Join QuartoImagem com Imagem
+            var quartoImagems = _contexto.QuartoImagem.GroupJoin(_contexto.Imagem.ToList(), qi => qi.ImagemId, i => i.ImagemId, (quartoImagem, imagem) => quartoImagem);
+            // join Quarto com Hotels
+            var quartosHotel = _contexto.Quarto.GroupJoin(_contexto.Hotels.ToList(), q => q.HotelId, h => h.HotelId, (quarto, hotel) => quarto);
+            // Join quartoImagems com QuartosHotel
+            var quartos = quartosHotel.GroupJoin(quartoImagems.ToList(), q => q.QuartoId, qi => qi.QuartoId, (quarto, quartoImagem) => quarto);
+
             return quartos;
         }
 
         IEnumerable<Quarto> IQuartoRepository.GetAllByHotelId(long HotelId)
         {
-            return _contexto.Quarto.ToList().FindAll(q => q.HotelId == HotelId);
+            // Join QuartoImagem com Imagem
+            var quartoImagems = _contexto.QuartoImagem.GroupJoin(_contexto.Imagem.ToList(), qi => qi.ImagemId, i => i.ImagemId, (quartoImagem, imagem) => quartoImagem);
+            // join Quarto com Hotels
+            var quartosHotel = _contexto.Quarto.Where(q => q.HotelId == HotelId).GroupJoin(_contexto.Hotels.ToList(), q => q.HotelId, h => h.HotelId, (quarto, hotel) => quarto);
+            // Join quartoImagems com QuartosHotel
+            var quartos = quartosHotel.GroupJoin(quartoImagems.ToList(), q => q.QuartoId, qi => qi.QuartoId, (quarto, quartoImagem) => quarto);
+
+            return quartos;
         }
 
         void IQuartoRepository.Remove(long id)

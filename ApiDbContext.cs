@@ -14,5 +14,7 @@ namespace easy_hotel_backend
         public DbSet<Quarto> Quarto { get; set; }
         public DbSet<Imagem> Imagem { get; set; }
         public DbSet<Comentario> Comentario { get; set; }
+        public DbSet<QuartoImagem> QuartoImagem { get; set; }
+
     }
 }

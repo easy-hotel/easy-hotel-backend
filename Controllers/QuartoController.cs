@@ -11,8 +11,6 @@ namespace easy_hotel_backend.Controllers
         private ApiDbContext _quartoDbContext;
         private readonly IHotelRepository _hotelRepositorio;
         private readonly IQuartoRepository _quartoRepositorio;
-
-
         public QuartoController(IHotelRepository hotelRepo, IQuartoRepository quartoRepo)
         {
             _hotelRepositorio = hotelRepo;
@@ -34,6 +32,10 @@ namespace easy_hotel_backend.Controllers
             }
             return new ObjectResult(quarto);
         }
-
+        [HttpGet("hotel/{id}")]
+        public IEnumerable<Quarto> GetByHotelId(long id)
+        {
+            return _quartoRepositorio.GetAllByHotelId(id);
+        }
     }
 }

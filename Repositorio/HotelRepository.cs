@@ -26,7 +26,8 @@ namespace easy_hotel_backend.Repositorio
 
         public IEnumerable<Hotel> GetAll()
         {
-            return _contexto.Hotels.ToList();
+            var hotels = _contexto.Hotels.Join(_contexto.Imagem.ToList(), h => h.ImagemId, i => i.ImagemId, (hotel, imagem) => hotel);
+            return hotels;
         }
 
         void IHotelRepository.Remove(long id)

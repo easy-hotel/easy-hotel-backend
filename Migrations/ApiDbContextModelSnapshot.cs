@@ -53,9 +53,13 @@ namespace easyhotelbackend.Migrations
 
                     b.Property<string>("Estado");
 
+                    b.Property<int>("ImagemId");
+
                     b.Property<string>("Nome");
 
                     b.HasKey("HotelId");
+
+                    b.HasIndex("ImagemId");
 
                     b.ToTable("Hotels");
                 });
@@ -67,13 +71,9 @@ namespace easyhotelbackend.Migrations
 
                     b.Property<string>("Nome");
 
-                    b.Property<int>("QuartoId");
-
                     b.Property<string>("Url");
 
                     b.HasKey("ImagemId");
-
-                    b.HasIndex("QuartoId");
 
                     b.ToTable("Imagem");
                 });
@@ -98,6 +98,24 @@ namespace easyhotelbackend.Migrations
                     b.HasIndex("HotelId");
 
                     b.ToTable("Quarto");
+                });
+
+            modelBuilder.Entity("easy_hotel_backend.Models.QuartoImagem", b =>
+                {
+                    b.Property<int>("QuartoImagemId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ImagemId");
+
+                    b.Property<int>("QuartoId");
+
+                    b.HasKey("QuartoImagemId");
+
+                    b.HasIndex("ImagemId");
+
+                    b.HasIndex("QuartoId");
+
+                    b.ToTable("QuartoImagem");
                 });
 
             modelBuilder.Entity("easy_hotel_backend.Models.Reserva", b =>
@@ -146,11 +164,11 @@ namespace easyhotelbackend.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("easy_hotel_backend.Models.Imagem", b =>
+            modelBuilder.Entity("easy_hotel_backend.Models.Hotel", b =>
                 {
-                    b.HasOne("easy_hotel_backend.Models.Quarto")
-                        .WithMany("Imagens")
-                        .HasForeignKey("QuartoId")
+                    b.HasOne("easy_hotel_backend.Models.Imagem", "imagem")
+                        .WithMany()
+                        .HasForeignKey("ImagemId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -159,6 +177,19 @@ namespace easyhotelbackend.Migrations
                     b.HasOne("easy_hotel_backend.Models.Hotel", "Hotel")
                         .WithMany()
                         .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("easy_hotel_backend.Models.QuartoImagem", b =>
+                {
+                    b.HasOne("easy_hotel_backend.Models.Imagem", "Imagem")
+                        .WithMany()
+                        .HasForeignKey("ImagemId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("easy_hotel_backend.Models.Quarto")
+                        .WithMany("QuartoImagems")
+                        .HasForeignKey("QuartoId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
