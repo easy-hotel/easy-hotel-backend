@@ -1,11 +1,11 @@
 # easy-hotel
 # easy-hotel-backend
 
-201619020637  Marcelo Campos da Silva - backend e frontend
+201619020637  Marcelo Campos da Silva - backend e frontend (integração com back)
 
-201719060029  Jander Guimarães Freire  - frontend e documentação
+201719060029  Jander Guimarães Freire  - frontend e documentação codigo 
 
-201419040464 Victor Hugo Ota - frontend e documentação
+201419040464 Victor Hugo Ota - frontend e documentação diagrama
 
 
 Instrução para rodar o projeto:
