@@ -10,6 +10,6 @@ namespace easy_hotel_backend.Models
         public string Cidade { get; set; }
         public string Estado { get; set; }
         public string Email { get; set; }
-        public string Avaliacao { get; set; }
+        public int Avaliacao { get; set; }
     }
 }

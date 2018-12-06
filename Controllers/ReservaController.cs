@@ -42,6 +42,9 @@ namespace easy_hotel_backend.Controllers
         [HttpPost]
         public IActionResult Crate([FromBody] Reserva reserva)
         {
+
+            /*Verifica Se alguma reserva para o quarto selecionado dentro da 
+            lista de reservas para aquele quarto no periodo selecionado*/
             if (reserva == null || !_reservaRepositorio.Disponivel(reserva))
             {
                 return BadRequest();
